@@ -1,3 +1,5 @@
+import java.time.temporal.TemporalAmount
+
 class BankOps {
     fun main(){
         println("Welcome to your banking system")
@@ -20,5 +22,48 @@ class BankOps {
 
         }
         println("you have created a ${accountType} account.")
+        var accountBalance = (0..1000).random()
+        println("The current balance is ${accountBalance} dollars.")
+        val money = (0..1000).random()
+        println("The amount you transferred is ${money} dollars.")
+
+        fun withdraw(amount: Int): Int {
+            accountBalance -= amount
+            println("You successfully withdrew ${amount} dollars. The current balance is ${accountBalance} dollars.")
+            return amount
+        }
+
+        fun debitWithdraw(amount: Int): Int {
+            if(accountBalance == 0){
+                println("Zero Balance. Cannot withdraw.")
+                return accountBalance
+            } else if(amount > accountBalance) {
+                println("not enough funds to make withdrawal.")
+                return 0
+            } else {
+                return withdraw(amount)
+            }
+        }
+
+        fun deposit(amount: Int): Int{
+            accountBalance += amount
+            println("You successfully deposited ${amount} dollars. The current balance is ${accountBalance} dollars.")
+            return amount
+        }
+
+        fun creditDeposit(amount: Int): Int {
+            if (accountBalance == 0) {
+                println("Do not deposit. This account has been paid off.")
+                return accountBalance
+            } else if (accountBalance + amount > 0) {
+                println("deposit failed. You tried to pay an amount greater than the credit balance. The current balance is ${accountBalance} dollars.")
+            } else if (amount == -accountBalance) {
+                accountBalance = 0
+                println("you have paid off this account")
+                return amount
+            } else {
+                return deposit(amount)
+            }
+        }
     }
 }
